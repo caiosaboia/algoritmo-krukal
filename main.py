@@ -65,3 +65,5 @@ nx.draw(mst, pos, with_labels=True)
 nx.draw_networkx_edge_labels(mst, pos, edge_labels=mst_labels)
 plt.title("Árvore Geradora Mínima")
 plt.show()
+
+print("Confirm")
