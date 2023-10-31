@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 # Crie um grafo inicial com nós aleatórios e arestas aleatórias
-random.seed(42)  # Defina uma semente para reprodução
+#random.seed(42)  # Defina uma semente para reprodução
 num_nodes = random.randint(5, 9)
 
 G = nx.Graph()
@@ -52,18 +52,20 @@ mst = nx.Graph(mst_edges)
 pos = nx.spring_layout(G)
 
 # Desenhe o grafo original
+plt.figure()
 nx.draw(G, pos, with_labels=True)
 labels = nx.get_edge_attributes(G, 'weight')
 nx.draw_networkx_edge_labels(G, pos, edge_labels={(k[0], k[1]): v for k, v in labels.items()})
 plt.title("Grafo Original")
-plt.show()
+plt.savefig("grafoOriginal.png")
 
 
 # Desenhe a árvore geradora mínima sem rótulos de peso para arestas que não fazem parte dela
+plt.figure()
 mst_labels = {edge: mst.get_edge_data(edge[0], edge[1])['weight'] for edge in mst.edges}
 nx.draw(mst, pos, with_labels=True)
 nx.draw_networkx_edge_labels(mst, pos, edge_labels=mst_labels)
 plt.title("Árvore Geradora Mínima")
-plt.show()
+plt.savefig("arvore geradora minima.png")
 
 print("Confirm")
