@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 # Crie um grafo inicial com nós aleatórios e arestas aleatórias
-#random.seed(42)  # Defina uma semente para reprodução
+random.seed(42)
 num_nodes = random.randint(5, 9)
 
 G = nx.Graph()
@@ -68,4 +68,4 @@ nx.draw_networkx_edge_labels(mst, pos, edge_labels=mst_labels)
 plt.title("Árvore Geradora Mínima")
 plt.savefig("arvore geradora minima.png")
 
-print("Confirm")
+print("Finalizado")
