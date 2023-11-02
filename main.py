@@ -44,13 +44,13 @@ for edge in edges:
         genMin_edges.append((u, v, data))
         uniao(u, v)
 
-# Crie um grafo com as arestas da árvore geradora mínima
+#Crie um grafo com as arestas da avore geradora minima
 genMin = nx.Graph(genMin_edges)
 
-# Posição dos nós para plotagem
+#Posicao dos nodes para plot
 pos = nx.spring_layout(G)
 
-# Desenhe o grafo original
+#Plotagem do grafo Original
 plt.figure()
 nx.draw(G, pos, with_labels=True)
 labels = nx.get_edge_attributes(G, 'weight')
@@ -60,11 +60,11 @@ plt.savefig("grafoOriginal.png")
 plt.show()
 
 
-# Desenhe a árvore geradora mínima sem rótulos de peso para arestas que não fazem parte dela
+#Desenha a arvore geradora minima
 plt.figure()
-mst_labels = {edge: genMin.get_edge_data(edge[0], edge[1])['weight'] for edge in genMin.edges}
+genMinLabels = {edge: genMin.get_edge_data(edge[0], edge[1])['weight'] for edge in genMin.edges}
 nx.draw(genMin, pos, with_labels=True)
-nx.draw_networkx_edge_labels(genMin, pos, edge_labels=mst_labels)
+nx.draw_networkx_edge_labels(genMin, pos, edge_labels=genMinLabels)
 plt.title("Árvore Geradora Mínima")
 plt.savefig("arvore geradora minima.png")
 plt.show()
