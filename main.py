@@ -2,51 +2,50 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
-# Crie um grafo inicial com nós aleatórios e arestas aleatórias
-random.seed(42)
-num_nodes = random.randint(5, 9)
+random.seed(42) #Semente para as escolhas aleatorias
+numero_nodes = random.randint(5, 9) #Aqui escolhemos de forma aletoria o numero de nodes
 
-G = nx.Graph()
-for i in range(num_nodes):
+G = nx.Graph() #Criacao de um grafo
+for i in range(numero_nodes):
     G.add_node(str(i))
 
-# Adicione arestas aleatórias
-for i in range(num_nodes):
-    for j in range(i + 1, num_nodes):
+#Adicionamos arestas ao nosso grafo
+for i in range(numero_nodes):
+    for j in range(i + 1, numero_nodes):
         if random.choice([True, False]):
             weight = random.randint(1, 10)
             G.add_edge(str(i), str(j), weight=weight)
 
-# Inicialize uma lista vazia para armazenar as arestas da árvore geradora mínima
-mst_edges = []
+#Criamos uma lista vazia para a geradora minima
+genMin_edges = []
 
-# Crie um conjunto para rastrear os componentes conectados
-components = {node: node for node in G.nodes}
+#Aqui criamos um dicionario que procura todos os nos do grafo G
+componentes = {node: node for node in G.nodes}
 
-# Ordene as arestas por peso
+#Aqui organizamos as areastas por peso
 edges = sorted(G.edges(data=True), key=lambda x: x[2]['weight'])
 
-# Função para encontrar o componente de um nó
+
 def procuraComponente(node):
-    if components[node] != node:
-        components[node] = procuraComponente(components[node])
-    return components[node]
+    if componentes[node] != node:
+        componentes[node] = procuraComponente(componentes[node])
+    return componentes[node]
 
-# Função para unir dois componentes
-def uniao(component1, component2):
-    root1 = procuraComponente(component1)
-    root2 = procuraComponente(component2)
-    components[root1] = root2
+#Essa def faz com possamos fazer a uniao de dois componentes
+def uniao(componente1, componente2):
+    root1 = procuraComponente(componente1)
+    root2 = procuraComponente(componente2)
+    componentes[root1] = root2
 
-# Algoritmo de Kruskal
+# Algoritmo de Kruskal de fato
 for edge in edges:
     u, v, data = edge
     if procuraComponente(u) != procuraComponente(v):
-        mst_edges.append((u, v, data))
+        genMin_edges.append((u, v, data))
         uniao(u, v)
 
 # Crie um grafo com as arestas da árvore geradora mínima
-mst = nx.Graph(mst_edges)
+genMin = nx.Graph(genMin_edges)
 
 # Posição dos nós para plotagem
 pos = nx.spring_layout(G)
@@ -63,9 +62,9 @@ plt.show()
 
 # Desenhe a árvore geradora mínima sem rótulos de peso para arestas que não fazem parte dela
 plt.figure()
-mst_labels = {edge: mst.get_edge_data(edge[0], edge[1])['weight'] for edge in mst.edges}
-nx.draw(mst, pos, with_labels=True)
-nx.draw_networkx_edge_labels(mst, pos, edge_labels=mst_labels)
+mst_labels = {edge: genMin.get_edge_data(edge[0], edge[1])['weight'] for edge in genMin.edges}
+nx.draw(genMin, pos, with_labels=True)
+nx.draw_networkx_edge_labels(genMin, pos, edge_labels=mst_labels)
 plt.title("Árvore Geradora Mínima")
 plt.savefig("arvore geradora minima.png")
 plt.show()
